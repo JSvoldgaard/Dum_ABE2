@@ -26,7 +26,7 @@ const authorize = require('../helpers/authorize')
  *                 type: string
  *     responses:
  *       201:
- *         description: Login.
+ *         description: User registered .
  *         content:
  *           application/json:
  *             schema:

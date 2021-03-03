@@ -8,6 +8,44 @@ var logger = require('morgan');
 var db = require('./models/db')
 var app = express();
 
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const { type } = require('os');
+const jwt = require('express-jwt');
+const authorize = require('./helpers/authorize');
+
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Express API to manage hotelsystem',
+    version: '1.0.0',
+  },
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      }
+    }
+  },
+  security: {
+    bearerAuth: []
+  },
+  servers: [{
+    url: 'http://localhost:3000',
+    description: 'Development server',
+  }, ],
+}
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['./controllers/*.js']
+
+}
+ 
+const swaggerSpec = swaggerJSDoc(options);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -23,7 +61,7 @@ app.use('/hotels',require('./controllers/hotel_controller'));
 app.use('/rooms',require('./controllers/room_controller'));
 // app.use('/rooms',roomsRouter);
 app.use('/users',require('./controllers/user_controller'))
-
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {

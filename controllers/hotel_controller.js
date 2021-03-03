@@ -132,24 +132,28 @@ router.post('/:currentUserId/addHotel',authorize(Role.Manager), createHotel)
  *                 type: number
  *     responses:
  *       201:
- *         description: Login.
+ *         description: Room Added.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 name:
+ *                 available:
+ *                   type: bool
+ *                   description: roomavailablity.
+ *                   example: true
+ *                 number:
+ *                   type: number
+ *                   description: RoomNumber.
+ *                   example: 1
+ *                 hotelName:
  *                   type: string
- *                   description: The users name.
- *                   example: Jacob
- *                 role:
+ *                   description: Name of hotel.
+ *                   example: Hotel motel
+ *                 hotelId:
  *                   type: string
- *                   description: The users role.
- *                   example: User
- *                 hashedPassword:
- *                   type: string
- *                   description: The users hashed password.
- *                   example: XxsecretxX
+ *                   description: Hotel identifier.
+ *                   example: 12345678
  */
 router.post('/:currentUserId/:hotelId/addRoom', authorize(Role.Manager), createRoom)
 // router.get('/:hotelId/rooms', getAvailableRoomsByHotelId)
