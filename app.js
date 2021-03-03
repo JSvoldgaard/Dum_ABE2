@@ -33,7 +33,7 @@ const swaggerDefinition = {
     bearerAuth: []
   },
   servers: [{
-    url: 'http://localhost:3000',
+    url: 'https://hotelreservationgruppe15.herokuapp.com/',
     description: 'Development server',
   }, ],
 }
