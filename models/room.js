@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+const { composeWithMongoose } = require("graphql-compose-mongoose");
+
 const RoomSchema = Schema({
   number: { 
     type: Number, 
@@ -21,4 +23,7 @@ const RoomSchema = Schema({
 
 const Room = mongoose.model('Room',RoomSchema);
 
-module.exports = Room;
+module.exports = { 
+  Room,
+  RoomTC: composeWithMongoose(mongoose.model("Room", RoomSchema))
+};

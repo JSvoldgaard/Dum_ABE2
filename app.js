@@ -14,6 +14,11 @@ const { type } = require('os');
 const jwt = require('express-jwt');
 const authorize = require('./helpers/authorize');
 
+const { graphqlHTTP } = require('express-graphql');
+const { buildSchema } = require('graphql');
+
+
+
 const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
@@ -46,6 +51,10 @@ const options = {
  
 const swaggerSpec = swaggerJSDoc(options);
 
+
+const graphqlSchema = require("./schemas/index");
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -62,6 +71,19 @@ app.use('/rooms',require('./controllers/room_controller'));
 // app.use('/rooms',roomsRouter);
 app.use('/users',require('./controllers/user_controller'))
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
+app.use(
+  "/graphql",
+  graphqlHTTP((request) => {
+    return {
+      graphiql: true,
+      schema: graphqlSchema,
+      // extensions,
+    };
+  })
+); 
+
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
